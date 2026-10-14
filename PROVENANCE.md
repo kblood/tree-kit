@@ -58,7 +58,7 @@ SHA-256 for the extracted TypeScript source files at this snapshot:
 | `/src/tree-kit-v1/impostors.ts` | `23796cc16f99bd160e2f914fd6d8a3c7a3496ad0589aeae0c2c9ac6d1d45b78d` |
 | `/src/tree-kit-v1/instances.ts` | `a1c0c55debd7fbb982e1bef876a455ec5e4929dafa5f4dd01875c5f5d420a41c` |
 | `/src/tree-kit-v1/metrics.ts` | `75bd3f67ef15939699dd36390a2ca2a5c1cbb3955a51d66e446f11b4a3817e15` |
-| `/src/tree-kit-v1/presentation.ts` | `251b26f73541dfde188119cde777c5128fae84ce2a5d1e30aeb22b1da40d9c89` |
+| `/src/tree-kit-v1/presentation.ts` | `d8799ffd741952b4ff12e5448063297fa161cd0773b46f53b51d019f31cb5c46` |
 | `/src/tree-kit-v1/recipes.ts` | `901fbef559baf8b4f907023a63fd0f9a9874100705b5f691d96ce9d6292fe924` |
 | `/src/tree-kit-v1/version.ts` | `89d2f2ead77de568ff6159be0a9dda145074c1a693d7df7861de424f65db3218` |
 | `/src/tree-leaf-transmission.ts` | `6f161c4ec513838f5516120288592855ec4f6ed4ccc8d7de5c83ae54a4c502d0` |

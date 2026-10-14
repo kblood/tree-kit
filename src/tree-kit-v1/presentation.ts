@@ -14,6 +14,7 @@ export {
   forestVariantPoint,
   forestVariantRadiusBound,
   forestVariantRemovesLeaf,
+  forestVariantTwist,
   forestVariantUniformData,
 } from '../tree-structural-variant.ts';
 export type {ForestStructuralVariant} from '../tree-structural-variant.ts';
