@@ -1,8 +1,9 @@
 import {test,after} from 'node:test';
 import assert from 'node:assert/strict';
 import {createServer} from 'vite';
+import {fileURLToPath} from 'node:url';
 
-const vite=await createServer({configFile:false,optimizeDeps:{noDiscovery:true},server:{middlewareMode:true,hmr:false,ws:false},appType:'custom'});
+const vite=await createServer({root:fileURLToPath(new URL('..',import.meta.url)),configFile:false,optimizeDeps:{noDiscovery:true},server:{middlewareMode:true,hmr:false,ws:false},appType:'custom'});
 const {createTreeDiffuseTransfer,reduceTreeDiffuseTransfer,evaluateTreeDiffuseTransfer}=await vite.ssrLoadModule('/src/tree-diffuse-transfer.ts');
 const close=(actual,expected)=>{assert.equal(actual.length,expected.length);for(let i=0;i<actual.length;i++)assert.ok(Math.abs(actual[i]-expected[i])<1e-6,`index ${i}: ${actual[i]} != ${expected[i]}`);};
 test('tree diffuse transfer coefficients are area associated and retain signed moments',()=>{
