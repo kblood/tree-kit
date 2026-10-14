@@ -11,13 +11,15 @@ const materials = [
     pbrMetallicRoughness: { baseColorTexture: { index: 2 } } },
 ];
 
-function makeTreeGlb({ imagesFirst = false, accessorUsesImage = false, geometrySeed = 17 } = {}) {
+function makeTreeGlb({ imagesFirst = false, accessorUsesImage = false, geometrySeed = 17,
+  imageMutationOffset = -1 } = {}) {
   const binary = new Uint8Array(56);
   const imageOffset = imagesFirst ? 0 : 40;
   const geometryOffset = imagesFirst ? 16 : 0;
   for (let image = 0; image < 4; image++) {
     for (let i = 0; i < 4; i++) binary[imageOffset + image * 4 + i] = 32 + image * 4 + i;
   }
+  if (imageMutationOffset >= 0) binary[imageOffset + imageMutationOffset] ^= 0xff;
   for (let i = 0; i < 40; i++) binary[geometryOffset + i] = (geometrySeed + i) & 0xff;
   const bufferViews = [
     ...Array.from({ length: 4 }, (_, image) => ({ buffer: 0, byteOffset: imageOffset + image * 4, byteLength: 4 })),
@@ -57,6 +59,21 @@ function parseGlb(buffer) {
   return { json, binary };
 }
 
+function updateGlbJson(buffer, update) {
+  const { json, binary } = parseGlb(buffer);
+  update(json);
+  const jsonBytes = new TextEncoder().encode(JSON.stringify(json));
+  const jsonLength = (jsonBytes.length + 3) & ~3;
+  const glb = new ArrayBuffer(28 + jsonLength + binary.length);
+  const view = new DataView(glb), bytes = new Uint8Array(glb);
+  view.setUint32(0, 0x46546c67, true); view.setUint32(4, 2, true); view.setUint32(8, glb.byteLength, true);
+  view.setUint32(12, jsonLength, true); view.setUint32(16, 0x4e4f534a, true);
+  bytes.fill(32, 20, 20 + jsonLength); bytes.set(jsonBytes, 20);
+  view.setUint32(20 + jsonLength, binary.length, true); view.setUint32(24 + jsonLength, 0x004e4942, true);
+  bytes.set(binary, 28 + jsonLength);
+  return glb;
+}
+
 test('texture-free LOD1 parser input omits a verified trailing image payload and remaps accessors', () => {
   const lod0 = makeTreeGlb({ geometrySeed: 17 }), lod1 = makeTreeGlb({ geometrySeed: 99 });
   const originalLod1 = parseGlb(lod1);
@@ -93,4 +110,19 @@ test('a trailing image bufferView referenced by geometry prevents compaction', (
   assert.equal(parserInput.json.bufferViews.length, 7);
   assert.deepEqual(parserInput.binary, source.binary);
   assert.deepEqual(parserInput.json.accessors.map(accessor => accessor.bufferView), [0, 4, 4, 5, 5, 5, 6, 6]);
+});
+
+test('exact image equality rejects first, middle, and last byte mismatches', () => {
+  const lod0 = makeTreeGlb();
+  for (const imageMutationOffset of [0, 8, 15]) {
+    const lod1 = makeTreeGlb({ imageMutationOffset, geometrySeed: 99 });
+    assert.throws(() => prepareTreeLODPair(lod0, lod1), /Tree LOD image \d differs/);
+  }
+});
+
+test('exact image equality rejects mismatched image lengths', () => {
+  const lod0 = makeTreeGlb(), lod1 = updateGlbJson(makeTreeGlb({ geometrySeed: 99 }), json => {
+    json.bufferViews[0].byteLength--;
+  });
+  assert.throws(() => prepareTreeLODPair(lod0, lod1), /Tree LOD image 0 differs/);
 });

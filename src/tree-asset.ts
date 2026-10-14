@@ -57,6 +57,11 @@ function imageBytes(doc:GLBDocument,index:number){
   if(start<0||end>doc.binary.length)throw new Error('Image outside GLB binary');
   return doc.binary.subarray(start,end);
 }
+function bytesEqual(a:Uint8Array,b:Uint8Array){
+  if(a.length!==b.length)return false;
+  for(let i=0;i<a.length;i++)if(a[i]!==b[i])return false;
+  return true;
+}
 /** Remove only a verified zero-padded suffix made exclusively from embedded
  * image bufferViews. Any interleaving or non-image bufferView uses the legacy
  * full binary path, keeping this a safe optional reduction. */
@@ -114,7 +119,7 @@ export function prepareTreeLODPair(lod0:ArrayBuffer,lod1:ArrayBuffer){
   let embeddedTextureBytes=0;
   for(let i=0;i<4;i++){
     const x=imageBytes(a,i),y=imageBytes(b,i);embeddedTextureBytes+=x.length;
-    if(x.length!==y.length||x.some((v,k)=>v!==y[k]))throw new Error(`Tree LOD image ${i} differs`);
+    if(!bytesEqual(x,y))throw new Error(`Tree LOD image ${i} differs`);
   }
   const compacted=compactTrailingImageViews(b.json,b.binary);
   const json=compacted?.json??structuredClone(b.json);

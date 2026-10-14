@@ -31,6 +31,15 @@ Atlas asset measurements and before/after results are recorded in the Atlas
 roadmap/performance report; Tree Kit regression tests cover compaction and both
 unsafe-layout fallbacks.
 
+The same preparation path now performs exact LOD image equality with an
+indexed byte loop. Nine paired comparisons on both shipped families showed
+lower CPU time than callback-based `Uint8Array.some`, and seven paired full
+preparation trials also favored the new path. First/middle/last byte changes
+and unequal image lengths are still rejected. No source assets, decoded
+texture semantics, or GPU behavior were changed. Paired measurements are in
+the Atlas tree-kit performance report; local raw reports remain under the
+ignored `test-results/` directory.
+
 ## Source checksums
 
 SHA-256 for the extracted TypeScript source files at this snapshot:
@@ -51,7 +60,7 @@ SHA-256 for the extracted TypeScript source files at this snapshot:
 | `/src/render-profile.ts` | `8e58e474ca0dc87a90b23edbf5bf6fbe6faa254a4ecdcec8d6acecf69a926188` |
 | `/src/tree-allometry.ts` | `2c1ea7351f273e0258da41537c9de45e076b50047ebe8a00ec45bdaffaa62e32` |
 | `/src/tree-asset-lab.ts` | `8d21914103793b35ddc346ec8f861a86a4e8664c4375b8ce9f2fedff86a07637` |
-| `/src/tree-asset.ts` | `f579679f357411385629413f1a33424a1fdbddd4d9b46bff18b585474062f688` |
+| `/src/tree-asset.ts` | `0a06bac513b4ad9e505eb251c9d090eee67bfc95ade835dc8751113ad97bcd47` |
 | `/src/tree-bark-texture-pool.ts` | `b73aa456e580723f53880d4e1c5a8e0fc3c4eafa52c24fb1b8ada4536abedc3f` |
 | `/src/tree-canopy-bounds.ts` | `cc82927d9d59c198fc61d06884244293f03836a02c6e49f521eec6b673f8a693` |
 | `/src/tree-canopy-profile.ts` | `2f9ded37a996562602b4c3dacd198164e0c8b847f97908f22cd5a47a516be414` |
