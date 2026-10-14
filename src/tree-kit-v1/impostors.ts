@@ -7,6 +7,7 @@ export {
   FOREST_FAR_ATLAS_VIEWS,
   FOREST_FAR_ATLAS_WIDTH,
   ForestFarAtlas,
+  forestFarAtlasCommonGLSL,
   forestFarAtlasBytes,
   forestFarAtlasCaptureFragment,
   forestFarAtlasGLSL,
