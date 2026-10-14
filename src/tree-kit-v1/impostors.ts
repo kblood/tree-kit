@@ -37,5 +37,6 @@ export type {TreeViewVector} from '../tree-impostor-views.ts';
 export {TreeCapturedImpostor,loadTreeCapture} from '../tree-captured-impostor.ts';
 export type {TreeCapture,TreeCaptureFiltering,TreeCaptureLoadOptions} from '../tree-captured-impostor.ts';
 export {adaptImpostorShader,liveGlsl} from '../tree-impostor-reference-shader.ts';
+export {packTreeCaptureLayer} from '../tree-impostor-filter.ts';
 export {createTreeDiffuseTransfer,reduceTreeDiffuseTransfer,evaluateTreeDiffuseTransfer} from '../tree-diffuse-transfer.ts';
 export {TREE_KIT_API_VERSION} from './version.ts';

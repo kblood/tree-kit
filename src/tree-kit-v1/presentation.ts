@@ -64,3 +64,5 @@ export {TREE_KIT_API_VERSION} from './version.ts';
 export {createLegacyTreeGeometry,treeQuaternion,LEGACY_TREE_BOUND,LEGACY_TREE_LOBES,LEGACY_TREE_SHAPE_VERSION,LEGACY_TREE_TRUNK} from '../tree-shape.ts';
 export {forestMaterial,forestDepthMaterial,installLegacyForestCoverage,installLegacyTreeAllometry} from '../forest-material.ts';
 export {forestCoverageGLSL,forestScreenHash,quantizeForestCoverage} from '../forest-coverage.ts';
+export {installTreeForestCoverage} from '../tree-forest-coverage.ts';
+export {TREE_LOD_COVERAGE_VERSION,TREE_LOD_COVERAGE_VIEWS,calibrateTreeLodCardScale,treeProjectedAreaM2} from '../tree-lod-coverage.ts';

@@ -54,11 +54,11 @@ SHA-256 for the extracted TypeScript source files at this snapshot:
 | `/src/tree-impostor-reference-shader.ts` | `08be44cbb1aaf730898f677d49ed32cd4c1341256d2a1245a582c8cc6272090f` |
 | `/src/tree-impostor-views.ts` | `c869606567f97f12a8d14b14ae1f9d5472b8d938e8d893e437d2265a7ee173cf` |
 | `/src/tree-instance-passes.ts` | `6c50a0204357af611c8d0d80489afc77d4458a72286b5c783c811904dc86f0ee` |
-| `/src/tree-kit-v1/assets.ts` | `7bb70c28f3c52559ebd7a5c96434860dcdc25a3183d6fecda6d5b140be2ff0ad` |
-| `/src/tree-kit-v1/impostors.ts` | `3dcfd80b528245012576998f9de16c73dc69b3a11f9fce3ea67735829c8e541f` |
+| `/src/tree-kit-v1/assets.ts` | `152518f6d21f8862a2786958222ae60fe138790f5c852a8dd054bfb7c27d2347` |
+| `/src/tree-kit-v1/impostors.ts` | `401698e2d8b2e2ca143558d802c092f049968ca670d070d2b0e1d1dd31386444` |
 | `/src/tree-kit-v1/instances.ts` | `a37e97722be6e6bfeb6247d5357c5372f5a7dd561946ee27997ec18240e6844a` |
 | `/src/tree-kit-v1/metrics.ts` | `75bd3f67ef15939699dd36390a2ca2a5c1cbb3955a51d66e446f11b4a3817e15` |
-| `/src/tree-kit-v1/presentation.ts` | `b1d4eb3a0c39e600650c8426053d965f4a2b0492031f5f08a66b8a558669a3dd` |
+| `/src/tree-kit-v1/presentation.ts` | `44d65a90b52ee7a822f5a4acf5d61a3b2c457684bdf5816215d91dfdf50e1df3` |
 | `/src/tree-kit-v1/recipes.ts` | `901fbef559baf8b4f907023a63fd0f9a9874100705b5f691d96ce9d6292fe924` |
 | `/src/tree-kit-v1/version.ts` | `89d2f2ead77de568ff6159be0a9dda145074c1a693d7df7861de424f65db3218` |
 | `/src/tree-leaf-transmission.ts` | `6f161c4ec513838f5516120288592855ec4f6ed4ccc8d7de5c83ae54a4c502d0` |

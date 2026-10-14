@@ -36,4 +36,15 @@ export type {
 } from '../tree-foliage-mips.ts';
 export {installLeafTransmission} from '../tree-leaf-transmission.ts';
 export type {LeafTransmissionOptions} from '../tree-leaf-transmission.ts';
+export {
+  TREE_FOLIAGE_LOD_CUTOFF_STEP,
+  TREE_FOLIAGE_LOD_CUTOFF_VERSION,
+  calibrateTreeFoliageLodCutoffs,
+  installTreeFoliageLodCutoff,
+  sampleTreeFoliageBilinearAlpha,
+  sampleTreeFoliageTrilinearAlpha,
+  treeFoliageLodCutoff,
+  treeFoliageLodCutoffGLSL,
+} from '../tree-foliage-cutoff.ts';
+export type {TreeFoliageAlphaLevel,TreeFoliageLodCutoffs} from '../tree-foliage-cutoff.ts';
 export {TREE_KIT_API_VERSION} from './version.ts';
