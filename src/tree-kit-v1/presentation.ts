@@ -66,3 +66,4 @@ export {forestMaterial,forestDepthMaterial,installLegacyForestCoverage,installLe
 export {forestCoverageGLSL,forestScreenHash,quantizeForestCoverage} from '../forest-coverage.ts';
 export {installTreeForestCoverage} from '../tree-forest-coverage.ts';
 export {TREE_LOD_COVERAGE_VERSION,TREE_LOD_COVERAGE_VIEWS,calibrateTreeLodCardScale,treeProjectedAreaM2} from '../tree-lod-coverage.ts';
+export {FOREST_FOLIAGE_LOBE_EXPONENT,FOREST_FOLIAGE_LOBE_VERSION,forestFoliageLobeCosine,forestFoliageLobeGLSL,installForestFoliageLobe} from '../forest-foliage-lobe.ts';
