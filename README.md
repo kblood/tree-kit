@@ -1,0 +1,48 @@
+# Tree Kit
+
+Tree Kit is the reusable runtime boundary for tree recipes and presentation:
+asset loading, allometry, family ownership, instanced near/middle rendering,
+foliage and bark handling, captured far impostors, and resource accounting.
+Atlas supplies resolved species traits, lighting and wind inputs. Planet
+population, habitat eligibility, terrain, world time, residency and scene
+adapters remain in Universe Atlas.
+
+The versioned source entrypoints are `tree-kit/v1/recipes`,
+`tree-kit/v1/presentation`, `tree-kit/v1/assets`, `tree-kit/v1/instances`,
+`tree-kit/v1/impostors` and `tree-kit/v1/metrics`. Three.js is pinned to the
+Atlas-compatible `super-three` 0.181.0 build so Kit and consumer objects share
+the same runtime constructors.
+
+## Development
+
+Use Node.js 24 or newer:
+
+```powershell
+npm ci
+npm test
+npm run build
+npm run lab:build
+npm run lab:dev
+```
+
+The lab accepts local LOD0 and LOD1 GLB files. It does not upload or persist
+selected assets. The current lab is an initial extraction surface; production
+family-library, captured-far, mixed-distance benchmarking and optimization
+controls are release-gate work.
+
+The standalone test suite covers deterministic math, shader and capture
+contracts, instance ownership, texture lease lifetime, API exports and import
+boundaries. Asset-specific tests that read Atlas GLBs remain in Atlas while
+redistribution rights for the Atlas-authored material and texture payloads are
+unresolved. No production GLB or texture binary is included here.
+
+## Provenance and publication
+
+The initial code extraction was copied from Universe Atlas commit
+`4e9aa3541334fa67bf4db10ea988f88cfa897e29`. See
+[`PROVENANCE.md`](PROVENANCE.md) for source paths, file hashes and excluded
+assets. The code repository is marked `UNLICENSED`; public visibility alone
+does not grant permission to reuse it. The upstream EZ-Tree MIT notice remains
+with Atlas where its derived assets are documented. Atlas-authored tree
+materials and textures remain excluded pending an evidenced redistribution
+license.
