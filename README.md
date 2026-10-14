@@ -46,6 +46,10 @@ boundaries. Asset-specific tests that read Atlas GLBs remain in Atlas while
 redistribution rights for the Atlas-authored material and texture payloads are
 unresolved. No production GLB or texture binary is included here.
 
+`npm run bench:instance-update-ranges` runs the paired CPU bookkeeping
+microbenchmark. Its 2026-10-14 audit and raw trial data are documented in
+[`docs/instance-update-ranges-performance-2026-10-14.md`](docs/instance-update-ranges-performance-2026-10-14.md).
+
 ## Provenance and publication
 
 The initial code extraction was copied from Universe Atlas commit
