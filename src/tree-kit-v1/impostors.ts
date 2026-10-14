@@ -28,6 +28,7 @@ export {
   decodeTreeView,
   encodeHemiTreeView,
   encodeTreeView,
+  hemiTreeViewGLSL,
   hemiTreeViewBlend,
   treeCaptureBasis,
   treeCaptureViews,
