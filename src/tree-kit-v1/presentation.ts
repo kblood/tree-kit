@@ -10,8 +10,10 @@ export {
   forestVariantCrownWeight,
   forestVariantEnvelope,
   forestVariantGLSL,
+  forestVariantClumpHash,
   forestVariantPoint,
   forestVariantRadiusBound,
+  forestVariantRemovesLeaf,
   forestVariantUniformData,
 } from '../tree-structural-variant.ts';
 export type {ForestStructuralVariant} from '../tree-structural-variant.ts';
@@ -25,6 +27,7 @@ export {
   TREE_LEGACY_ALLOMETRY_ENVELOPE,
   TREE_ALLOMETRY_REASONS,
   TREE_ALLOMETRY_IDENTITY_CODE,
+  LEGACY_TREE_ALLOMETRY,
   forestTreeDimensions,
   forestFamilyBoundRadius,
   forestFamilyEnvelopeRadius,
@@ -58,8 +61,10 @@ export {
   TREE_CANOPY_WIND_MAX_ANGLE_RAD,
   deriveTreeCanopyMetadata,
 } from '../tree-canopy-profile.ts';
-export type {TreeCanopyMetadata, TreeCanopyProfile, TreeCullingBounds, TreeTrunkProfile} from '../tree-canopy-profile.ts';
-export {deriveFamilyProxyBounds, deriveVariantFamilyProxyBounds} from '../tree-canopy-bounds.ts';
+export type {TreeCanopyMetadata, TreeCanopyProfile, TreeCullingBounds, TreeTrunkProfile, CrownBand} from '../tree-canopy-profile.ts';
+export {alphaWeightedLinearRgbMean,deriveTreeBaseColorStatistics} from '../tree-canopy-profile.ts';
+export {deriveFamilyProxyBounds, deriveVariantFamilyProxyBounds,evaluateFamilyProxyBounds} from '../tree-canopy-bounds.ts';
+export type {FamilyProxyBounds,EvaluatedFamilyProxyBounds} from '../tree-canopy-bounds.ts';
 export {TREE_KIT_API_VERSION} from './version.ts';
 export {createLegacyTreeGeometry,treeQuaternion,LEGACY_TREE_BOUND,LEGACY_TREE_LOBES,LEGACY_TREE_SHAPE_VERSION,LEGACY_TREE_TRUNK} from '../tree-shape.ts';
 export {forestMaterial,forestDepthMaterial,installLegacyForestCoverage,installLegacyTreeAllometry} from '../forest-material.ts';
