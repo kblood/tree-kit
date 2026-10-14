@@ -19,6 +19,18 @@ manifest paths, regenerate hashes, and validate the package sidecars. Until
 then this repository remains `UNLICENSED` and is not a redistributable asset
 bundle.
 
+## 2026-10-14 runtime optimization
+
+`prepareTreeLODPair` now drops image bufferViews from its texture-free LOD1
+parser input only when they form a zero-padded binary suffix, no geometry view
+overlaps them, and no remaining accessor or extension references them. It
+remaps the retained bufferViews and accessors; any unrecognized/interleaved
+layout falls back to the original full binary. The source LODs and their image
+bytes remain unchanged, and image identity is still checked before parsing.
+Atlas asset measurements and before/after results are recorded in the Atlas
+roadmap/performance report; Tree Kit regression tests cover compaction and both
+unsafe-layout fallbacks.
+
 ## Source checksums
 
 SHA-256 for the extracted TypeScript source files at this snapshot:
@@ -39,7 +51,7 @@ SHA-256 for the extracted TypeScript source files at this snapshot:
 | `/src/render-profile.ts` | `8e58e474ca0dc87a90b23edbf5bf6fbe6faa254a4ecdcec8d6acecf69a926188` |
 | `/src/tree-allometry.ts` | `2c1ea7351f273e0258da41537c9de45e076b50047ebe8a00ec45bdaffaa62e32` |
 | `/src/tree-asset-lab.ts` | `8d21914103793b35ddc346ec8f861a86a4e8664c4375b8ce9f2fedff86a07637` |
-| `/src/tree-asset.ts` | `37831fe464f55822184d774bbded0bccb473a2032dcdf2e27173b6840edf0d9c` |
+| `/src/tree-asset.ts` | `f579679f357411385629413f1a33424a1fdbddd4d9b46bff18b585474062f688` |
 | `/src/tree-bark-texture-pool.ts` | `b73aa456e580723f53880d4e1c5a8e0fc3c4eafa52c24fb1b8ada4536abedc3f` |
 | `/src/tree-canopy-bounds.ts` | `cc82927d9d59c198fc61d06884244293f03836a02c6e49f521eec6b673f8a693` |
 | `/src/tree-canopy-profile.ts` | `2f9ded37a996562602b4c3dacd198164e0c8b847f97908f22cd5a47a516be414` |

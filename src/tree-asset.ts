@@ -57,6 +57,55 @@ function imageBytes(doc:GLBDocument,index:number){
   if(start<0||end>doc.binary.length)throw new Error('Image outside GLB binary');
   return doc.binary.subarray(start,end);
 }
+/** Remove only a verified zero-padded suffix made exclusively from embedded
+ * image bufferViews. Any interleaving or non-image bufferView uses the legacy
+ * full binary path, keeping this a safe optional reduction. */
+function compactTrailingImageViews(json:any,binary:Uint8Array){
+  const views=json.bufferViews as Array<{buffer?:number;byteOffset?:number;byteLength:number}>|undefined;
+  const images=json.images as Array<{bufferView?:number;uri?:string}>|undefined;
+  if(!views?.length||!images?.length||json.buffers?.length!==1)return null;
+  if(images.some(image=>image.uri||!Number.isInteger(image.bufferView)))return null;
+  const imageIndices=new Set(images.map(image=>image.bufferView as number));
+  if(imageIndices.size===0||[...imageIndices].some(index=>index<0||index>=views.length))return null;
+  if(views.some(view=>view.buffer!==0||!Number.isInteger(view.byteLength)||view.byteLength<=0||
+    view.byteOffset!==undefined&&(!Number.isInteger(view.byteOffset)||view.byteOffset<0)))return null;
+  const endOf=(view:{byteOffset?:number;byteLength:number})=>(view.byteOffset??0)+view.byteLength;
+  const geometryEnd=Math.max(0,...views.flatMap((view,index)=>imageIndices.has(index)?[]:[endOf(view)]));
+  if(!Number.isInteger(geometryEnd)||geometryEnd<0||geometryEnd>binary.length)return null;
+  const imageRanges=[...imageIndices].map(index=>{
+    const view=views[index];
+    return {index,start:view.byteOffset??0,end:endOf(view)};
+  }).sort((a,b)=>a.start-b.start);
+  if(imageRanges.some(range=>!Number.isInteger(range.start)||!Number.isInteger(range.end)||range.start<geometryEnd||range.end>binary.length))return null;
+  let cursor=geometryEnd;
+  for(const range of imageRanges){
+    if(range.start<cursor||binary.subarray(cursor,range.start).some(byte=>byte!==0))return null;
+    cursor=range.end;
+  }
+  if(binary.subarray(cursor).some(byte=>byte!==0))return null;
+  const parserBinaryLength=(geometryEnd+3)&~3;
+  if(parserBinaryLength>binary.length||binary.subarray(geometryEnd,parserBinaryLength).some(byte=>byte!==0))return null;
+  const remap=new Map<number,number>();let next=0;
+  for(let index=0;index<views.length;index++)if(!imageIndices.has(index))remap.set(index,next++);
+  const compactJson=structuredClone(json);
+  delete compactJson.images;delete compactJson.textures;delete compactJson.samplers;
+  compactJson.bufferViews=compactJson.bufferViews.filter((_:unknown,index:number)=>!imageIndices.has(index));
+  let validReferences=true;
+  const updateReferences=(value:any):void=>{
+    if(!validReferences||!value||typeof value!=='object')return;
+    if(Array.isArray(value)){for(const item of value)updateReferences(item);return;}
+    if(Number.isInteger(value.bufferView)){
+      const mapped=remap.get(value.bufferView);
+      if(mapped===undefined){validReferences=false;return;}
+      value.bufferView=mapped;
+    }
+    for(const item of Object.values(value))updateReferences(item);
+  };
+  updateReferences(compactJson);
+  if(!validReferences)return null;
+  compactJson.buffers[0].byteLength=parserBinaryLength;
+  return {json:compactJson,binaryLength:parserBinaryLength};
+}
 /** Check byte identity before sharing materials. LOD1 images are never decoded:
  * its parser receives texture-free material placeholders with stable indices. */
 export function prepareTreeLODPair(lod0:ArrayBuffer,lod1:ArrayBuffer){
@@ -67,15 +116,15 @@ export function prepareTreeLODPair(lod0:ArrayBuffer,lod1:ArrayBuffer){
     const x=imageBytes(a,i),y=imageBytes(b,i);embeddedTextureBytes+=x.length;
     if(x.length!==y.length||x.some((v,k)=>v!==y[k]))throw new Error(`Tree LOD image ${i} differs`);
   }
-  const json=structuredClone(b.json);
+  const compacted=compactTrailingImageViews(b.json,b.binary);
+  const json=compacted?.json??structuredClone(b.json);
   json.materials=json.materials.map((m:any)=>({name:m.name}));delete json.images;delete json.textures;delete json.samplers;
-  // Keep the original binary offsets. Unused compressed PNG bytes remain in
-  // this temporary parse input, but do not allocate image/GPU resources.
+  const parserBinaryLength=compacted?.binaryLength??b.binary.length;
   const text=new TextEncoder().encode(JSON.stringify(json)),length=(text.length+3)&~3;
-  const buffer=new ArrayBuffer(28+length+b.binary.length),view=new DataView(buffer),bytes=new Uint8Array(buffer);
+  const buffer=new ArrayBuffer(28+length+parserBinaryLength),view=new DataView(buffer),bytes=new Uint8Array(buffer);
   view.setUint32(0,0x46546c67,true);view.setUint32(4,2,true);view.setUint32(8,buffer.byteLength,true);
   view.setUint32(12,length,true);view.setUint32(16,0x4e4f534a,true);bytes.fill(32,20,20+length);bytes.set(text,20);
-  view.setUint32(20+length,b.binary.length,true);view.setUint32(24+length,0x004e4942,true);bytes.set(b.binary,28+length);
+  view.setUint32(20+length,parserBinaryLength,true);view.setUint32(24+length,0x004e4942,true);bytes.set(b.binary.subarray(0,parserBinaryLength),28+length);
   const foliageTexture=a.json.materials[1].pbrMetallicRoughness?.baseColorTexture?.index;
   const foliageImage=a.json.textures?.[foliageTexture]?.source;
   if(!Number.isInteger(foliageImage)||foliageImage<0||foliageImage>=4)throw new Error('Expected embedded foliage base-color image');

@@ -1,6 +1,6 @@
 {
   "name": "tree-kit",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "license": "UNLICENSED",
   "type": "module",
@@ -25,7 +25,7 @@
   "scripts": {
     "check": "tsc --noEmit",
     "build": "npm run check",
-    "test": "node --test tests/compact-instance-slots.test.mjs tests/forest-coverage.test.mjs tests/forest-impostor-family.test.mjs tests/forest-impostor.test.mjs tests/forest-presentation.test.mjs tests/forest-resource-accounting.test.mjs tests/tree-bark-texture-pool.test.mjs tests/tree-captured-filtering.test.mjs tests/tree-captured-transfer.test.mjs tests/tree-diffuse-transfer.test.mjs tests/tree-foliage-mips.test.mjs tests/tree-foliage-sidecar.test.mjs tests/tree-forest-coverage.test.mjs tests/tree-impostor-filter.test.mjs tests/tree-impostor-views.test.mjs tests/tree-kit-v1-api.test.mjs tests/tree-leaf-transmission.test.mjs tests/tree-shape.test.mjs tests/tree-lab-contract.test.mjs",
+    "test": "node --test tests/compact-instance-slots.test.mjs tests/forest-coverage.test.mjs tests/forest-impostor-family.test.mjs tests/forest-impostor.test.mjs tests/forest-presentation.test.mjs tests/forest-resource-accounting.test.mjs tests/tree-asset-preparation.test.mjs tests/tree-bark-texture-pool.test.mjs tests/tree-captured-filtering.test.mjs tests/tree-captured-transfer.test.mjs tests/tree-diffuse-transfer.test.mjs tests/tree-foliage-mips.test.mjs tests/tree-foliage-sidecar.test.mjs tests/tree-forest-coverage.test.mjs tests/tree-impostor-filter.test.mjs tests/tree-impostor-views.test.mjs tests/tree-kit-v1-api.test.mjs tests/tree-leaf-transmission.test.mjs tests/tree-shape.test.mjs tests/tree-lab-contract.test.mjs",
     "lab:dev": "vite --host 127.0.0.1",
     "lab:build": "vite build"
   },
