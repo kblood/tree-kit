@@ -1,13 +1,19 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Atlas tree asset lab</title>
-<style>body{margin:0;background:#152026;color:#edf3ef;font:14px system-ui}main{height:100vh}aside{position:absolute;top:12px;left:12px;max-width:320px;padding:16px;background:#10201eea;border:1px solid #536b5c;border-radius:8px}h1{font-size:20px;margin:0 0 8px}label{display:block;margin:8px 0}input[type=file]{width:100%}button,input,select{font:inherit}pre{white-space:pre-wrap;font-size:12px}a{color:#bdded1}@media(max-width:600px){aside{max-width:230px;font-size:12px}}</style></head>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Tree Kit Lab</title>
+<style>body{margin:0;background:#152026;color:#edf3ef;font:14px system-ui}main{height:100vh}aside{position:absolute;top:12px;left:12px;max-width:370px;max-height:calc(100vh - 56px);overflow:auto;padding:16px;background:#10201eea;border:1px solid #536b5c;border-radius:8px}h1{font-size:20px;margin:0 0 8px}h2{font-size:14px;margin:14px 0 4px}label{display:block;margin:8px 0}input[type=file]{width:100%}button,input,select{font:inherit}pre{white-space:pre-wrap;font-size:12px}@media(max-width:600px){aside{max-width:260px;font-size:12px}}</style></head>
 <body><main id="viewport" aria-label="Tree prototype in physical metres"></main><aside>
-<h1>Tree Kit Lab</h1><p>Standalone review surface for Tree Kit. Select the two exported detail levels. Files stay in this browser.</p>
-<label>LOD0 GLB <input id="lod0-file" type="file" accept=".glb"></label><label>LOD1 GLB <input id="lod1-file" type="file" accept=".glb"></label>
+<h1>Tree Kit Lab</h1><p>Uses Tree Kit’s production family library. Selected files stay in this browser.</p>
+<h2>Branching family</h2><label>LOD0 GLB <input id="branch-lod0" type="file" accept=".glb"></label><label>LOD1 GLB <input id="branch-lod1" type="file" accept=".glb"></label>
+<label>Mip manifest (optional) <input id="branch-mip-manifest" type="file" accept=".json"></label><label>Mip payload (optional) <input id="branch-mip-payload" type="file"></label>
+<details><summary>Add spire family</summary><label>LOD0 GLB <input id="spire-lod0" type="file" accept=".glb"></label><label>LOD1 GLB <input id="spire-lod1" type="file" accept=".glb"></label>
+<label>Mip manifest (optional) <input id="spire-mip-manifest" type="file" accept=".json"></label><label>Mip payload (optional) <input id="spire-mip-payload" type="file"></label></details>
 <label>Coverage on load <select id="coverage"><option value="mask">Alpha mask</option><option value="hash">Three.js alpha hash</option></select></label>
 <label>Leaf transmission on load <select id="transmission"><option value="off">Off (original shader)</option><option value="0">0 (calibration)</option><option value="0.35">0.35</option><option value="0.5">0.5</option><option value="1">1 (calibration)</option></select></label><button id="load-assets">Load trees</button>
+<label><input id="share-bark" type="checkbox" checked> Share identical bark textures (reloads families)</label>
 <label>Detail <select id="lod"><option value="0">LOD0</option><option value="1">LOD1</option></select></label>
 <label>Population <select id="population"><option value="3">3 scale specimens</option><option value="64">64 trees</option><option value="192">192 trees</option></select></label>
+<label><input id="mixed-lod" type="checkbox"> Show near LOD0 and middle LOD1 together</label><label>Near / LOD0 count <input id="near-count" type="number" min="0" max="192" value="32"></label><label>Middle / LOD1 count <input id="middle-count" type="number" min="0" max="192" value="128"></label>
+<button id="bake-atlas">Bake far atlases</button><label>Far impostors <input id="far-count" type="number" min="0" max="256" value="0"></label>
 <label>Date, nanoseconds <input id="date" value="0" inputmode="numeric"></label><label><input id="animate" type="checkbox"> Animate seven-second wind cycle</label>
 <p>Left: 10 m · centre: 16 m · right: 22 m skeleton scale. Leaf cards keep their exported physical dimensions. Drag to orbit, scroll to zoom.</p>
 <pre id="status" role="status">Awaiting local assets.</pre>

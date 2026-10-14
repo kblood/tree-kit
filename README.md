@@ -25,10 +25,20 @@ npm run lab:build
 npm run lab:dev
 ```
 
-The lab accepts local LOD0 and LOD1 GLB files. It does not upload or persist
-selected assets. The current lab is an initial extraction surface; production
-family-library, captured-far, mixed-distance benchmarking and optimization
-controls are release-gate work.
+The lab accepts one or both local family LOD0/LOD1 pairs and optional foliage
+mip manifests/payloads. It does not upload or persist selected assets. It uses
+the same `ForestTreeFamilyLibrary` path as Atlas, including structural family
+variants, bounded near/middle batches and shared bark ownership. The mixed view
+shows near LOD0 and middle LOD1 populations together. When valid mip sidecars
+are supplied, the lab can bake the production far atlases incrementally and
+render far impostors beside the detailed bands. It can toggle bark sharing by
+reloading the selected families, switch coverage/transmission settings, and
+record CPU/GPU pass and resource diagnostics.
+
+Lab counters include its ground and shadow passes. They are exploratory until
+a quiet-host capture compares fixed poses and isolates near, middle and far
+contributions. Atlas's fixed-pose browser benchmark remains the release gate
+for production runtime attribution.
 
 The standalone test suite covers deterministic math, shader and capture
 contracts, instance ownership, texture lease lifetime, API exports and import
